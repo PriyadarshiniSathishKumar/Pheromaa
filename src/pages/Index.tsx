@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -7,6 +6,7 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import PerfumeCard from '@/components/PerfumeCard';
+import ScrollSplashEffect from '@/components/ScrollSplashEffect';
 import { products } from '@/data/products';
 
 const Index: React.FC = () => {
@@ -15,6 +15,7 @@ const Index: React.FC = () => {
   return (
     <div className="min-h-screen bg-perfume-black text-white">
       <NavBar />
+      <ScrollSplashEffect />
       
       <main>
         <HeroSection />

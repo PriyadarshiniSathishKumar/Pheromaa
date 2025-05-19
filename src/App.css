@@ -20,6 +20,62 @@
   animation: rotate-slow 6s linear infinite;
 }
 
+@keyframes float-perfume {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float-perfume {
+  animation: float-perfume 8s ease-in-out infinite;
+}
+
+@keyframes splash-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.splash-particle {
+  animation: splash-appear 1.5s ease-out forwards;
+}
+
+@keyframes mist-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) translateX(5px);
+  }
+}
+
+.perfume-mist {
+  animation: mist-rise 3s ease-out infinite;
+}
+
 /* Preserve any other necessary animations */
 @keyframes logo-spin {
   from {

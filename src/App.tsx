@@ -3,9 +3,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ShopProvider } from "@/context/ShopContext";
 import CustomCursor from "@/components/CustomCursor";
+import PerfumeSplash from "@/components/PerfumeSplash";
+import { useState, useEffect } from "react";
 
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -28,6 +30,32 @@ import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
+// Component to handle route changes and trigger splash effect
+const RouteChangeHandler = () => {
+  const location = useLocation();
+  const [showSplash, setShowSplash] = useState(false);
+  const [splashColor, setSplashColor] = useState("#c59dff");
+
+  useEffect(() => {
+    // Different splash colors for different routes
+    if (location.pathname.includes("/products")) {
+      setSplashColor("#ff9db0"); // Pink
+    } else if (location.pathname.includes("/collections")) {
+      setSplashColor("#a3ff9d"); // Green
+    } else if (location.pathname.includes("/about")) {
+      setSplashColor("#d4af37"); // Gold
+    } else if (location.pathname.includes("/blog")) {
+      setSplashColor("#c59dff"); // Purple
+    } else {
+      setSplashColor("#c59dff"); // Default purple
+    }
+    
+    setShowSplash(true);
+  }, [location.pathname]);
+
+  return <PerfumeSplash isActive={showSplash} color={splashColor} onComplete={() => setShowSplash(false)} />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ShopProvider>
@@ -36,6 +64,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <CustomCursor />
+          <RouteChangeHandler />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
