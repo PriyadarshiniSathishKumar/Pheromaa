@@ -23,18 +23,47 @@ const Index: React.FC = () => {
         <section className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black">
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-10">
-              <h2 className="text-3xl font-serif tracking-wider">Featured Collection</h2>
-              <Link 
-                to="/products" 
-                className="flex items-center text-perfume-pink hover:text-white transition-colors"
+              <motion.h2 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-3xl font-serif tracking-wider"
               >
-                View All <ArrowRight size={16} className="ml-2" />
-              </Link>
+                Featured Collection
+              </motion.h2>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <Link 
+                  to="/products" 
+                  className="flex items-center text-perfume-pink hover:text-white transition-colors"
+                >
+                  View All 
+                  <motion.span
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  >
+                    <ArrowRight size={16} className="ml-2" />
+                  </motion.span>
+                </Link>
+              </motion.div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.map(product => (
-                <PerfumeCard key={product.id} product={product} />
+              {featuredProducts.map((product, index) => (
+                <motion.div 
+                  key={product.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <PerfumeCard product={product} />
+                </motion.div>
               ))}
             </div>
           </div>
@@ -58,12 +87,23 @@ const Index: React.FC = () => {
                 <p className="text-gray-300 mb-8">
                   Each bottle is meticulously crafted with attention to detail, creating timeless elegance that complements the exquisite fragrance within. Our perfumers blend tradition with innovation to deliver an olfactory experience that captures the essence of luxury.
                 </p>
-                <Link 
-                  to="/about" 
-                  className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
+                <motion.div
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  Learn more about our craft <ArrowRight size={16} className="ml-2" />
-                </Link>
+                  <Link 
+                    to="/about" 
+                    className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
+                  >
+                    Learn more about our craft 
+                    <motion.span
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    >
+                      <ArrowRight size={16} className="ml-2" />
+                    </motion.span>
+                  </Link>
+                </motion.div>
               </motion.div>
               
               <motion.div 
@@ -73,10 +113,12 @@ const Index: React.FC = () => {
                 viewport={{ once: true }}
                 className="lg:w-1/2"
               >
-                <img 
-                  src="/lovable-uploads/6dd1ea80-cd87-4b73-92bc-f48dfc3d8552.png" 
+                <motion.img 
+                  src="/lovable-uploads/34d937cd-3f7a-4fd4-8d66-31875f61c372.png" 
                   alt="Perfume Craftsmanship" 
-                  className="rounded-lg shadow-xl w-full green-glow"
+                  className="rounded-lg shadow-xl w-full"
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 />
               </motion.div>
             </div>
@@ -101,12 +143,23 @@ const Index: React.FC = () => {
                 <p className="text-gray-300 mb-8">
                   We source the finest ingredients from across the globe, ensuring that each scent tells a story of exceptional quality and exclusivity. Our limited edition collections showcase the pinnacle of perfumery art, created for the most discerning fragrance connoisseurs.
                 </p>
-                <Link 
-                  to="/collections/exclusive" 
-                  className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
+                <motion.div
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  Discover limited editions <ArrowRight size={16} className="ml-2" />
-                </Link>
+                  <Link 
+                    to="/collections/exclusive" 
+                    className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
+                  >
+                    Discover limited editions 
+                    <motion.span
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    >
+                      <ArrowRight size={16} className="ml-2" />
+                    </motion.span>
+                  </Link>
+                </motion.div>
               </motion.div>
               
               <motion.div 
@@ -116,10 +169,12 @@ const Index: React.FC = () => {
                 viewport={{ once: true }}
                 className="lg:w-1/2"
               >
-                <img 
-                  src="/lovable-uploads/4e27c576-de31-409f-bb64-32159c8ba565.png" 
+                <motion.img 
+                  src="/lovable-uploads/cbdd91a3-4560-4d99-b5e2-6f90b665802f.png" 
                   alt="Limited Edition Perfume" 
-                  className="rounded-lg shadow-xl w-full pink-glow"
+                  className="rounded-lg shadow-xl w-full"
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 />
               </motion.div>
             </div>
@@ -141,16 +196,20 @@ const Index: React.FC = () => {
                 Subscribe to receive exclusive offers, early access to limited editions, and fragrance insights from our perfumers.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <form className="flex flex-col sm:flex-row gap-3 justify-center">
                 <input
                   type="email"
                   placeholder="Your email address"
                   className="px-4 py-3 bg-black/30 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-perfume-pink w-full sm:w-96"
                 />
-                <button className="px-6 py-3 bg-perfume-pink text-black font-semibold rounded-md hover:bg-opacity-90 transition-colors">
+                <motion.button 
+                  className="px-6 py-3 bg-perfume-pink text-black font-semibold rounded-md hover:bg-opacity-90 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   Subscribe
-                </button>
-              </div>
+                </motion.button>
+              </form>
             </motion.div>
           </div>
         </section>
