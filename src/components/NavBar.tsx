@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import { Heart, Menu, Search, ShoppingCart, User, X, Instagram, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -35,6 +35,15 @@ const NavBar = () => {
   const handleProfileClick = () => {
     navigate('/account');
   };
+
+  const AnimatedIcon = ({ icon: Icon, delay = 0 }) => (
+    <motion.div 
+      whileHover={{ scale: 1.2, rotate: 360 }}
+      transition={{ duration: 0.6, delay: delay }}
+    >
+      <Icon size={20} />
+    </motion.div>
+  );
   
   return (
     <nav className={cn(
@@ -48,7 +57,7 @@ const NavBar = () => {
             className="md:hidden p-1" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <AnimatedIcon icon={X} /> : <AnimatedIcon icon={Menu} />}
           </Button>
           
           <Link to="/" className="text-2xl font-serif tracking-widest text-white">
@@ -61,10 +70,10 @@ const NavBar = () => {
               className="flex items-center"
             >
               <motion.span 
-                initial={{ opacity: 1 }}
                 animate={{ 
                   opacity: [1, 0.8, 1],
-                  textShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 10px rgba(255,255,255,0.8)", "0 0 0px rgba(255,255,255,0)"]
+                  textShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 10px rgba(255,255,255,0.8)", "0 0 0px rgba(255,255,255,0)"],
+                  rotateY: [0, 5, 0, -5, 0]
                 }}
                 transition={{ 
                   repeat: Infinity,
@@ -103,43 +112,91 @@ const NavBar = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
             </span>
           </Link>
+          <Link to="/blog" className="text-white hover:text-perfume-pink transition-colors">
+            <span className="relative group">
+              Blog
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
+            </span>
+          </Link>
         </div>
         
-        <div className="flex items-center space-x-4">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+        <div className="flex items-center space-x-5">
+          <motion.div 
+            whileHover={{ scale: 1.2 }} 
+            whileTap={{ scale: 0.95 }}
+            className="text-white hover:text-perfume-pink"
+          >
             <Button 
               variant="ghost" 
               size="icon" 
               className="text-white hover:text-perfume-pink"
               onClick={handleSearchClick}
             >
-              <Search size={20} />
+              <motion.div
+                animate={{ rotate: [0, 15, 0, -15, 0] }}
+                transition={{ repeat: Infinity, duration: 3, delay: 1 }}
+              >
+                <Search size={20} />
+              </motion.div>
             </Button>
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <motion.div 
+            whileHover={{ scale: 1.2 }} 
+            whileTap={{ scale: 0.95 }}
+            className="text-white hover:text-perfume-pink"
+          >
             <Button 
               variant="ghost" 
               size="icon" 
               className="text-white hover:text-perfume-pink"
               onClick={handleProfileClick}
             >
-              <User size={20} />
+              <motion.div
+                animate={{ rotate: [0, 15, 0, -15, 0] }}
+                transition={{ repeat: Infinity, duration: 3, delay: 1.5 }}
+              >
+                <User size={20} />
+              </motion.div>
             </Button>
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <motion.div 
+            whileHover={{ scale: 1.2 }} 
+            whileTap={{ scale: 0.95 }}
+            className="text-white hover:text-perfume-pink"
+          >
             <Link to="/wishlist">
               <Button variant="ghost" size="icon" className="text-white hover:text-perfume-pink">
-                <Heart size={20} />
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 15, 0, -15, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ repeat: Infinity, duration: 3, delay: 2 }}
+                >
+                  <Heart size={20} />
+                </motion.div>
               </Button>
             </Link>
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <motion.div 
+            whileHover={{ scale: 1.2 }} 
+            whileTap={{ scale: 0.95 }}
+            className="text-white hover:text-perfume-pink"
+          >
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="text-white hover:text-perfume-pink relative">
-                <ShoppingCart size={20} />
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 15, 0, -15, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ repeat: Infinity, duration: 3, delay: 2.5 }}
+                >
+                  <ShoppingCart size={20} />
+                </motion.div>
                 <motion.span 
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -179,9 +236,48 @@ const NavBar = () => {
               <Link to="/blog" className="text-white hover:text-perfume-pink transition-colors" onClick={() => setIsMenuOpen(false)}>
                 Blog
               </Link>
-              <Link to="/contact" className="text-white hover:text-perfume-pink transition-colors" onClick={() => setIsMenuOpen(false)}>
-                Contact
+              <Link to="/sustainability" className="text-white hover:text-perfume-pink transition-colors" onClick={() => setIsMenuOpen(false)}>
+                Sustainability
               </Link>
+              <Link to="/shipping" className="text-white hover:text-perfume-pink transition-colors" onClick={() => setIsMenuOpen(false)}>
+                Shipping & Returns
+              </Link>
+              <Link to="/faq" className="text-white hover:text-perfume-pink transition-colors" onClick={() => setIsMenuOpen(false)}>
+                FAQ
+              </Link>
+            </div>
+            
+            <div className="mt-auto pb-8 flex justify-center space-x-6">
+              <motion.a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                transition={{ duration: 0.6 }}
+                className="text-white hover:text-perfume-pink"
+              >
+                <Facebook size={24} />
+              </motion.a>
+              <motion.a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                transition={{ duration: 0.6 }}
+                className="text-white hover:text-perfume-pink"
+              >
+                <Instagram size={24} />
+              </motion.a>
+              <motion.a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                transition={{ duration: 0.6 }}
+                className="text-white hover:text-perfume-pink"
+              >
+                <Twitter size={24} />
+              </motion.a>
             </div>
           </motion.div>
         )}

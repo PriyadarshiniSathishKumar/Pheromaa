@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ShopProvider } from "@/context/ShopContext";
+import CustomCursor from "@/components/CustomCursor";
 
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -34,6 +35,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <CustomCursor />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
