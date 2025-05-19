@@ -25,14 +25,16 @@ const CustomCursor = () => {
 
   return (
     <>
-      <style jsx global>{`
-        body {
-          cursor: none;
-        }
-        a, button, input, textarea, select, [role="button"] {
-          cursor: none;
-        }
-      `}</style>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          body {
+            cursor: none;
+          }
+          a, button, input, textarea, select, [role="button"] {
+            cursor: none;
+          }
+        `
+      }} />
       <motion.div
         className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference"
         animate={{
