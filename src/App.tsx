@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
+import BlogPost from "./components/BlogPost";
 import Sustainability from "./pages/Sustainability";
 import Shipping from "./pages/Shipping";
 import FAQ from "./pages/FAQ";
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/collections" element={<Collections />} />
             <Route path="/collections/:type" element={<Collections />} />
             <Route path="/sustainability" element={<Sustainability />} />

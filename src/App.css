@@ -39,96 +39,33 @@
   animation: float-perfume 8s ease-in-out infinite;
 }
 
-@keyframes splash-appear {
-  0% {
-    opacity: 0;
-    transform: scale(0) rotate(0deg);
-  }
-  20% {
-    opacity: 0.9;
-    transform: scale(1) rotate(180deg);
-  }
-  80% {
-    opacity: 0.7;
-    transform: scale(1.2) rotate(270deg);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.8) rotate(360deg);
-  }
+/* Water text effect */
+.water-text {
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.1);
+  background-image: url(https://image.ibb.co/ciSeac/image.png);
+  background-repeat: repeat-x;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: water-animate 15s linear infinite;
 }
 
-.splash-particle {
-  animation: splash-appear 1.5s ease-out forwards;
-}
-
-@keyframes mist-rise {
+@keyframes water-animate {
   0% {
-    opacity: 0;
-    transform: translateY(0) scale(0.8);
+    background-position: left 0px top 80px;
   }
   40% {
-    opacity: 0.8;
-    transform: translateY(-10px) scale(1.1);
+    background-position: left 800px top -50px;
+  }
+  80% {
+    background-position: left 1800px top -50px;
   }
   100% {
-    opacity: 0;
-    transform: translateY(-25px) translateX(10px) scale(0.9);
+    background-position: left 2400px top 80px;
   }
-}
-
-.perfume-mist {
-  animation: mist-rise 3s ease-out infinite;
-  filter: blur(2px);
-}
-
-/* Splash droplet animation */
-@keyframes droplet-fall {
-  0% {
-    transform: translateY(-20px) translateX(0) scale(0.1);
-    opacity: 0;
-  }
-  30% {
-    transform: translateY(10px) translateX(var(--droplet-x, 5px)) scale(1);
-    opacity: 0.9;
-    border-radius: 50% 50% 50% 50%;
-  }
-  60% {
-    transform: translateY(25px) translateX(calc(var(--droplet-x, 5px) * 2)) scale(1.5);
-    opacity: 0.7;
-    border-radius: 40% 40% 60% 60%;
-  }
-  100% {
-    transform: translateY(50px) translateX(calc(var(--droplet-x, 5px) * 3)) scale(0.5);
-    opacity: 0;
-    border-radius: 40% 60% 50% 50%;
-  }
-}
-
-.liquid-droplet {
-  animation: droplet-fall 1.8s ease-in forwards;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(2px);
-}
-
-/* Splash impact animation */
-@keyframes splash-impact {
-  0% {
-    transform: scale(0.1);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-
-.splash-impact {
-  animation: splash-impact 0.8s ease-out forwards;
 }
 
 /* Preserve any other necessary animations */

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
+import VideoSection from '@/components/VideoSection';
 import PerfumeCard from '@/components/PerfumeCard';
 import { products } from '@/data/products';
 
@@ -18,6 +19,8 @@ const Index: React.FC = () => {
       
       <main>
         <HeroSection />
+        
+        <VideoSection />
         
         {/* Featured Products Section */}
         <section className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black">

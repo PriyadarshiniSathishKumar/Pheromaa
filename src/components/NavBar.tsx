@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heart, Menu, Search, ShoppingCart, User, X, Instagram, Facebook, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import NavIcons from "./NavIcons";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,38 +87,7 @@ const NavBar = () => {
           </Link>
         </div>
         
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/" className="text-white hover:text-perfume-pink transition-colors">
-            <span className="relative group">
-              Home
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
-            </span>
-          </Link>
-          <Link to="/products" className="text-white hover:text-perfume-pink transition-colors">
-            <span className="relative group">
-              Shop
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
-            </span>
-          </Link>
-          <Link to="/collections" className="text-white hover:text-perfume-pink transition-colors">
-            <span className="relative group">
-              Collections
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
-            </span>
-          </Link>
-          <Link to="/about" className="text-white hover:text-perfume-pink transition-colors">
-            <span className="relative group">
-              About
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
-            </span>
-          </Link>
-          <Link to="/blog" className="text-white hover:text-perfume-pink transition-colors">
-            <span className="relative group">
-              Blog
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-perfume-pink group-hover:w-full transition-all duration-300"></span>
-            </span>
-          </Link>
-        </div>
+        <NavIcons />
         
         <div className="flex items-center space-x-5">
           <motion.div 
