@@ -100,6 +100,142 @@
   }
 }
 
+/* Glass morphism effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Parallax container */
+.parallax-container {
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* 3D card effect */
+.card-3d {
+  transition: transform 0.6s ease-out;
+  transform-style: preserve-3d;
+}
+
+.card-3d:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 30px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Page transition animations */
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition-in {
+  animation: page-fade-in 0.8s ease forwards;
+}
+
+/* Morphing animations */
+@keyframes morph {
+  0% {
+    border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+  }
+}
+
+.morph-animation {
+  animation: morph 8s ease-in-out infinite;
+}
+
+/* Liquid motion effects */
+@keyframes liquid-motion {
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+  34% {
+    border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    transform: translate3d(0, 5px, 0) rotateZ(0.01deg);
+  }
+  50% {
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+    transform: translate3d(0, -3px, 0) rotateZ(0.01deg);
+  }
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+  }
+}
+
+.liquid-blob {
+  animation: liquid-motion 20s ease-in-out infinite;
+  transition: all 0.5s ease;
+}
+
+/* SVG path drawing animation */
+@keyframes draw-path {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.svg-draw path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-path 3s ease forwards;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Interactive search bar */
+.search-expand {
+  transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), background-color 0.3s ease;
+}
+
+.search-expand:focus {
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
 /* Preserve any other necessary animations */
 @keyframes logo-spin {
   from {

@@ -1,16 +1,25 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import PerfumeCard from '@/components/PerfumeCard';
+import ParallaxSection from '@/components/ParallaxSection';
 import { products } from '@/data/products';
 
 const Index: React.FC = () => {
   const featuredProducts = products.filter(product => product.featured);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   
   return (
     <div className="min-h-screen bg-perfume-black text-white">
@@ -20,8 +29,21 @@ const Index: React.FC = () => {
         <HeroSection />
         
         {/* Featured Products Section */}
-        <section className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black">
-          <div className="container mx-auto px-4 text-center">
+        <motion.section 
+          className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black"
+          ref={containerRef}
+        >
+          <motion.div 
+            className="absolute inset-0 z-0 opacity-10"
+            style={{ 
+              backgroundImage: `url(/lovable-uploads/45d25ded-2f0f-4e7f-bbf4-804fe0d8de69.png)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              y: backgroundY
+            }}
+          />
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -60,10 +82,11 @@ const Index: React.FC = () => {
             >
               <Link 
                 to="/products" 
-                className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
+                className="inline-flex items-center text-perfume-pink hover:text-white transition-colors group"
               >
                 View All 
                 <motion.span
+                  className="group-hover:translate-x-2 transition-transform"
                   animate={{ x: [0, 5, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
                 >
@@ -84,143 +107,96 @@ const Index: React.FC = () => {
                     y: -10, 
                     transition: { type: "spring", stiffness: 300 }
                   }}
+                  className="card-3d"
                 >
                   <PerfumeCard product={product} />
                 </motion.div>
               ))}
             </div>
           </div>
-        </section>
+        </motion.section>
         
-        {/* Craftsmanship Section */}
-        <section className="py-20 bg-perfume-black">
-          <div className="container mx-auto px-4 text-center">
-            <div className="flex flex-col items-center gap-12">
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="max-w-3xl"
-              >
-                <h2 className="text-4xl font-serif mb-6 tracking-wider">CRAFTING DREAMS</h2>
-                <p className="text-gray-300 mb-6">
-                  At PHEROMA, we believe that fragrance is an art that speaks directly to the soul. Our perfumes embody precision, combining rare ingredients and unique accords to create scents that resonate with emotion, moment, and mood.
-                </p>
-                <p className="text-gray-300 mb-8">
-                  Each bottle is meticulously crafted with attention to detail, creating timeless elegance that complements the exquisite fragrance within. Our perfumers blend tradition with innovation to deliver an olfactory experience that captures the essence of luxury.
-                </p>
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Link 
-                    to="/about" 
-                    className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
-                  >
-                    Learn more about our craft 
-                    <motion.span
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                    >
-                      <ArrowRight size={16} className="ml-2" />
-                    </motion.span>
-                  </Link>
-                </motion.div>
-              </motion.div>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="w-full max-w-3xl"
-              >
-                <motion.img 
-                  src="/lovable-uploads/34d937cd-3f7a-4fd4-8d66-31875f61c372.png" 
-                  alt="Perfume Craftsmanship" 
-                  className="rounded-lg shadow-xl w-full"
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                />
-              </motion.div>
-            </div>
+        {/* Parallax Sections */}
+        <ParallaxSection />
+        <ParallaxSection reverseDirection={true} />
+        
+        {/* Newsletter Section with Glassmorphism */}
+        <section className="py-20 bg-perfume-darkBrown relative overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-800/20 via-perfume-darkBrown to-black"></div>
+            
+            {/* Animated blobs */}
+            <motion.div 
+              className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-500/20 filter blur-[50px]"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                x: [0, 30, 0],
+                y: [0, 20, 0],
+                rotate: [0, 90, 0],
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 20, 
+                ease: "easeInOut" 
+              }}
+            />
+            
+            <motion.div 
+              className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 filter blur-[60px]"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                x: [0, -40, 0],
+                y: [0, -30, 0],
+                rotate: [0, -90, 0],
+              }}
+              transition={{ 
+                repeat: Infinity, 
+                duration: 25, 
+                ease: "easeInOut" 
+              }}
+            />
           </div>
-        </section>
-        
-        {/* Rarity Section */}
-        <section className="py-20 bg-gradient-to-t from-perfume-darkBrown/50 to-perfume-black">
-          <div className="container mx-auto px-4 text-center">
-            <div className="flex flex-col items-center gap-12">
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="max-w-3xl"
-              >
-                <h2 className="text-4xl font-serif mb-6 tracking-wider">RARITY</h2>
-                <p className="text-gray-300 mb-6">
-                  PHEROMA fragrances are crafted in limited batches for those seeking something truly extraordinary. Each bottle is numbered, making it as unique and unforgettable as the moments it inspires.
-                </p>
-                <p className="text-gray-300 mb-8">
-                  We source the finest ingredients from across the globe, ensuring that each scent tells a story of exceptional quality and exclusivity. Our limited edition collections showcase the pinnacle of perfumery art, created for the most discerning fragrance connoisseurs.
-                </p>
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Link 
-                    to="/collections/exclusive" 
-                    className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
-                  >
-                    Discover limited editions 
-                    <motion.span
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                    >
-                      <ArrowRight size={16} className="ml-2" />
-                    </motion.span>
-                  </Link>
-                </motion.div>
-              </motion.div>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="w-full max-w-3xl"
-              >
-                <motion.img 
-                  src="/lovable-uploads/cbdd91a3-4560-4d99-b5e2-6f90b665802f.png" 
-                  alt="Limited Edition Perfume" 
-                  className="rounded-lg shadow-xl w-full"
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                />
-              </motion.div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Newsletter Section */}
-        <section className="py-20 bg-perfume-darkBrown">
-          <div className="container mx-auto px-4 text-center">
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="max-w-2xl mx-auto"
+              className="max-w-2xl mx-auto glass-effect rounded-xl p-8 backdrop-blur-md"
             >
-              <h2 className="text-3xl font-serif mb-4 tracking-wider">Stay Connected</h2>
-              <p className="text-gray-300 mb-8">
-                Subscribe to receive exclusive offers, early access to limited editions, and fragrance insights from our perfumers.
-              </p>
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="text-3xl font-serif mb-4 tracking-wider"
+              >
+                Stay Connected
+              </motion.h2>
               
-              <form className="flex flex-col sm:flex-row gap-3 justify-center">
-                <motion.div className="w-full sm:w-96" whileHover={{ scale: 1.02 }}>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="text-gray-300 mb-8"
+              >
+                Subscribe to receive exclusive offers, early access to limited editions, and fragrance insights from our perfumers.
+              </motion.p>
+              
+              <motion.form 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="flex flex-col sm:flex-row gap-3 justify-center"
+              >
+                <motion.div 
+                  className="w-full sm:w-96" 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   <input
                     type="email"
                     placeholder="Your email address"
@@ -234,7 +210,34 @@ const Index: React.FC = () => {
                 >
                   Subscribe
                 </motion.button>
-              </form>
+              </motion.form>
+              
+              {/* Floating particles */}
+              <div className="absolute inset-0 pointer-events-none">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute rounded-full bg-white"
+                    style={{
+                      width: Math.random() * 4 + 2 + 'px',
+                      height: Math.random() * 4 + 2 + 'px',
+                      left: Math.random() * 100 + '%',
+                      top: Math.random() * 100 + '%',
+                    }}
+                    animate={{
+                      y: [0, -(Math.random() * 20 + 10)],
+                      opacity: [0, 0.7, 0],
+                      scale: [1, 0]
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: Math.random() * 2 + 2,
+                      ease: "easeOut",
+                      delay: Math.random() * 5
+                    }}
+                  />
+                ))}
+              </div>
             </motion.div>
           </div>
         </section>
