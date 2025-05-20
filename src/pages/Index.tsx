@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
-import VideoSection from '@/components/VideoSection';
 import PerfumeCard from '@/components/PerfumeCard';
 import { products } from '@/data/products';
 
@@ -20,8 +19,6 @@ const Index: React.FC = () => {
       <main>
         <HeroSection />
         
-        <VideoSection />
-        
         {/* Featured Products Section */}
         <section className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black">
           <div className="container mx-auto px-4 text-center">
@@ -32,7 +29,27 @@ const Index: React.FC = () => {
               viewport={{ once: true }}
               className="text-3xl font-serif tracking-wider mb-6"
             >
-              Featured Collection
+              <span className="relative">
+                <motion.span
+                  animate={{
+                    textShadow: ["0px 0px 0px rgba(255, 87, 168, 0)", "0px 0px 15px rgba(255, 87, 168, 0.8)", "0px 0px 0px rgba(255, 87, 168, 0)"]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                >
+                  Featured Collection
+                </motion.span>
+                <motion.span
+                  className="absolute bottom-0 left-0 w-full h-0.5 bg-perfume-pink"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                  viewport={{ once: true }}
+                />
+              </span>
             </motion.h2>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -63,6 +80,10 @@ const Index: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
+                  whileHover={{ 
+                    y: -10, 
+                    transition: { type: "spring", stiffness: 300 }
+                  }}
                 >
                   <PerfumeCard product={product} />
                 </motion.div>
@@ -199,14 +220,16 @@ const Index: React.FC = () => {
               </p>
               
               <form className="flex flex-col sm:flex-row gap-3 justify-center">
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  className="px-4 py-3 bg-black/30 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-perfume-pink w-full sm:w-96"
-                />
+                <motion.div className="w-full sm:w-96" whileHover={{ scale: 1.02 }}>
+                  <input
+                    type="email"
+                    placeholder="Your email address"
+                    className="px-4 py-3 bg-black/30 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-perfume-pink w-full"
+                  />
+                </motion.div>
                 <motion.button 
                   className="px-6 py-3 bg-perfume-pink text-black font-semibold rounded-md hover:bg-opacity-90 transition-colors"
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(255, 87, 168, 0.5)" }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Subscribe
