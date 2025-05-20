@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -6,7 +7,6 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import PerfumeCard from '@/components/PerfumeCard';
-import ScrollSplashEffect from '@/components/ScrollSplashEffect';
 import { products } from '@/data/products';
 
 const Index: React.FC = () => {
@@ -15,44 +15,42 @@ const Index: React.FC = () => {
   return (
     <div className="min-h-screen bg-perfume-black text-white">
       <NavBar />
-      <ScrollSplashEffect />
       
       <main>
         <HeroSection />
         
         {/* Featured Products Section */}
         <section className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-10">
-              <motion.h2 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="text-3xl font-serif tracking-wider"
+          <div className="container mx-auto px-4 text-center">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-3xl font-serif tracking-wider mb-6"
+            >
+              Featured Collection
+            </motion.h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="mb-8"
+            >
+              <Link 
+                to="/products" 
+                className="inline-flex items-center text-perfume-pink hover:text-white transition-colors"
               >
-                Featured Collection
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <Link 
-                  to="/products" 
-                  className="flex items-center text-perfume-pink hover:text-white transition-colors"
+                View All 
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
                 >
-                  View All 
-                  <motion.span
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                  >
-                    <ArrowRight size={16} className="ml-2" />
-                  </motion.span>
-                </Link>
-              </motion.div>
-            </div>
+                  <ArrowRight size={16} className="ml-2" />
+                </motion.span>
+              </Link>
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProducts.map((product, index) => (
@@ -72,14 +70,14 @@ const Index: React.FC = () => {
         
         {/* Craftsmanship Section */}
         <section className="py-20 bg-perfume-black">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="container mx-auto px-4 text-center">
+            <div className="flex flex-col items-center gap-12">
               <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="lg:w-1/2"
+                className="max-w-3xl"
               >
                 <h2 className="text-4xl font-serif mb-6 tracking-wider">CRAFTING DREAMS</h2>
                 <p className="text-gray-300 mb-6">
@@ -108,11 +106,11 @@ const Index: React.FC = () => {
               </motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="lg:w-1/2"
+                className="w-full max-w-3xl"
               >
                 <motion.img 
                   src="/lovable-uploads/34d937cd-3f7a-4fd4-8d66-31875f61c372.png" 
@@ -128,14 +126,14 @@ const Index: React.FC = () => {
         
         {/* Rarity Section */}
         <section className="py-20 bg-gradient-to-t from-perfume-darkBrown/50 to-perfume-black">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row-reverse items-center gap-12">
+          <div className="container mx-auto px-4 text-center">
+            <div className="flex flex-col items-center gap-12">
               <motion.div 
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="lg:w-1/2"
+                className="max-w-3xl"
               >
                 <h2 className="text-4xl font-serif mb-6 tracking-wider">RARITY</h2>
                 <p className="text-gray-300 mb-6">
@@ -164,11 +162,11 @@ const Index: React.FC = () => {
               </motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="lg:w-1/2"
+                className="w-full max-w-3xl"
               >
                 <motion.img 
                   src="/lovable-uploads/cbdd91a3-4560-4d99-b5e2-6f90b665802f.png" 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
   const controls = useAnimation();
@@ -23,27 +23,29 @@ const HeroSection: React.FC = () => {
   
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Full landscape image background - loads first */}
+      {/* Background with the elegant perfume image */}
       <div className="absolute inset-0 z-0">
-        <motion.img
-          src="/lovable-uploads/355ad372-8625-4814-8d3a-b8d755e8d4dc.png"
-          alt="Luxury Perfume"
-          className="w-full h-full object-cover"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.75 }}
-          transition={{ duration: 2 }}
-          onLoad={() => setImageLoaded(true)}
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-perfume-darkBrown/70 to-black/80"></div>
+        <div className="relative w-full h-full">
+          <motion.img
+            src="/lovable-uploads/45d25ded-2f0f-4e7f-bbf4-804fe0d8de69.png"
+            alt="Elegant Perfume"
+            className="w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.85 }}
+            transition={{ duration: 2 }}
+            onLoad={() => setImageLoaded(true)}
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/90"></div>
+        </div>
       </div>
       
-      <div className="container mx-auto px-4 pt-24 pb-20 flex flex-col lg:flex-row items-center relative z-10">
-        <div className="w-full lg:w-1/2 text-center lg:text-left mb-12 lg:mb-0">
+      <div className="container mx-auto px-4 pt-24 pb-20 text-center relative z-10">
+        <div className="w-full max-w-4xl mx-auto">
           <motion.h1 
             initial={{ opacity: 0, y: 50 }}
             animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
             className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-wider text-white leading-tight"
           >
             BELIEVE <br /> 
@@ -56,7 +58,7 @@ const HeroSection: React.FC = () => {
                 repeat: Infinity,
                 duration: 3, 
                 ease: "easeInOut",
-                delay: 2.5
+                delay: 1.2
               }}
             >
               IN DREAMS
@@ -66,8 +68,8 @@ const HeroSection: React.FC = () => {
           <motion.p 
             initial={{ opacity: 0, y: 50 }}
             animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 2 }}
-            className="mt-6 text-lg text-gray-300 max-w-lg mx-auto lg:mx-0"
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-6 text-lg text-gray-300 mx-auto"
           >
             Step into a world of captivating aromas with PHEROMA, where each fragrance is crafted to evoke emotion, inspire memories, and define your essence.
           </motion.p>
@@ -75,8 +77,8 @@ const HeroSection: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
             animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 2.5 }}
-            className="mt-8 space-x-4"
+            transition={{ duration: 0.8, delay: 1.1 }}
+            className="mt-8 space-x-4 flex justify-center"
           >
             <Button 
               asChild 
@@ -101,10 +103,6 @@ const HeroSection: React.FC = () => {
             </Button>
           </motion.div>
         </div>
-        
-        <div className="w-full lg:w-1/2 relative">
-          {/* Removed perfume bottle image to let the background be the main focus */}
-        </div>
       </div>
       
       {/* Animated scroll indicator */}
@@ -119,7 +117,7 @@ const HeroSection: React.FC = () => {
           repeat: Infinity, 
           duration: 1.5, 
           ease: "easeInOut",
-          delay: 3
+          delay: 1.5
         }}
       >
         <motion.div 
