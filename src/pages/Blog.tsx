@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { blogPosts } from '@/components/BlogPost';
 
 const Blog: React.FC = () => {
@@ -121,12 +121,14 @@ const Blog: React.FC = () => {
                 className="text-center py-12"
               >
                 <p className="text-xl mb-4">No posts found in this category</p>
-                <button 
+                <motion.button 
                   onClick={() => setCategory('all')}
                   className="text-perfume-pink hover:underline"
+                  whileHover={{ scale: 1.05, color: "#ff9db0" }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   View all posts
-                </button>
+                </motion.button>
               </motion.div>
             )}
           </motion.div>
@@ -142,6 +144,11 @@ const Blog: React.FC = () => {
 const BlogCard = ({ post, index }: { post: any; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate(`/blog/${post.id}`);
+  };
   
   return (
     <motion.article 
@@ -149,9 +156,12 @@ const BlogCard = ({ post, index }: { post: any; index: number }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="bg-perfume-darkBrown rounded-lg overflow-hidden group hover:shadow-xl hover:shadow-perfume-pink/10 transition-all duration-500"
+      whileHover={{ y: -10, scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={handleClick}
+      className="bg-perfume-darkBrown rounded-lg overflow-hidden group hover:shadow-xl hover:shadow-perfume-pink/10 transition-all duration-500 cursor-pointer"
     >
-      <div className="h-56 overflow-hidden">
+      <div className="h-56 overflow-hidden relative">
         <motion.img 
           src={post.image} 
           alt={post.title} 
@@ -197,16 +207,14 @@ const BlogCard = ({ post, index }: { post: any; index: number }) => {
           transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
           whileHover={{ x: 5 }}
         >
-          <Link 
-            to={`/blog/${post.id}`} 
+          <span 
             className="text-perfume-pink hover:text-white transition-colors inline-flex items-center"
-            data-cursor-text="Read Article"
           >
             Read More
             <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
-          </Link>
+          </span>
         </motion.div>
       </div>
     </motion.article>

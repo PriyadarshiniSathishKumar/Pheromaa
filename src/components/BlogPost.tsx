@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
 interface BlogPostProps {
@@ -126,41 +126,66 @@ export const blogPosts: BlogPostProps[] = [
 const BlogPost: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const postId = parseInt(id || '1');
+  const navigate = useNavigate();
   
   const post = blogPosts.find(post => post.id === postId) || blogPosts[0];
   
   return (
     <div className="container mx-auto px-4 pt-24 pb-20">
-      <Link to="/blog" className="inline-flex items-center text-perfume-pink hover:text-white transition-colors mb-8">
-        <ArrowLeft size={16} className="mr-2" />
-        Back to all articles
-      </Link>
+      <motion.div
+        whileHover={{ x: -5 }}
+        whileTap={{ x: -10 }}
+      >
+        <Link to="/blog" className="inline-flex items-center text-perfume-pink hover:text-white transition-colors mb-8">
+          <ArrowLeft size={16} className="mr-2" />
+          Back to all articles
+        </Link>
+      </motion.div>
       
       <motion.article
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
+        className="max-w-4xl mx-auto"
       >
-        <div className="max-w-4xl mx-auto">
-          <div className="text-perfume-pink text-sm mb-2">{post.category} • {post.date}</div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif mb-8 tracking-wider">{post.title}</h1>
-          
-          <div className="h-80 md:h-96 overflow-hidden rounded-lg mb-10">
-            <motion.img 
-              src={post.image} 
-              alt={post.title} 
-              className="w-full h-full object-cover"
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.2 }}
-            />
-          </div>
-          
-          <div 
-            className="prose prose-lg prose-invert mx-auto"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+        <motion.div
+          whileHover={{ color: "#ff57a8" }}
+          className="text-perfume-pink text-sm mb-2"
+        >
+          {post.category} • {post.date}
+        </motion.div>
+        
+        <motion.h1 
+          className="text-3xl md:text-4xl lg:text-5xl font-serif mb-8 tracking-wider"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {post.title}
+        </motion.h1>
+        
+        <motion.div 
+          className="h-80 md:h-96 overflow-hidden rounded-lg mb-10"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.img 
+            src={post.image} 
+            alt={post.title} 
+            className="w-full h-full object-cover"
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.2 }}
           />
-        </div>
+        </motion.div>
+        
+        <motion.div 
+          className="prose prose-lg prose-invert mx-auto"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        />
       </motion.article>
     </div>
   );

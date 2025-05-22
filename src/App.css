@@ -7,6 +7,43 @@
   text-align: left;
 }
 
+/* Global animations that apply to all pages */
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Element transitions */
+a, button, .clickable {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rotation animation */
 @keyframes rotate-slow {
   from {
     transform: rotate(0deg);
@@ -147,6 +184,11 @@
   animation: page-fade-in 0.8s ease forwards;
 }
 
+/* Apply page transition to all main content */
+main {
+  animation: page-fade-in 0.8s ease-out forwards;
+}
+
 /* Morphing animations */
 @keyframes morph {
   0% {
@@ -234,6 +276,49 @@
 .search-expand:focus {
   width: 300px;
   background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Image hover effects */
+.img-hover-zoom {
+  overflow: hidden;
+}
+
+.img-hover-zoom img {
+  transition: transform 0.8s ease;
+}
+
+.img-hover-zoom:hover img {
+  transform: scale(1.1);
+}
+
+/* Interactive cards */
+.interactive-card {
+  transition: all 0.4s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced text effects */
+.enhanced-text {
+  position: relative;
+}
+
+.enhanced-text::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.4s ease;
+}
+
+.enhanced-text:hover::after {
+  width: 100%;
 }
 
 /* Preserve any other necessary animations */

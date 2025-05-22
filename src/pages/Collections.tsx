@@ -76,6 +76,8 @@ const Collections: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 + (index * 0.1) }}
                   className="group relative overflow-hidden rounded-lg"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <Link to={`/collections/${collection.id}`} className="block">
                     <div className="relative h-96">
@@ -85,14 +87,22 @@ const Collections: React.FC = () => {
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
-                        <h3 className="text-2xl font-serif mb-2 tracking-wider">{collection.name}</h3>
+                        <motion.h3 
+                          className="text-2xl font-serif mb-2 tracking-wider"
+                          whileHover={{ color: "#ff57a8" }}
+                        >
+                          {collection.name}
+                        </motion.h3>
                         <p className="text-gray-300">{collection.description}</p>
-                        <span className="mt-4 inline-flex items-center text-perfume-pink">
+                        <motion.span 
+                          className="mt-4 inline-flex items-center text-perfume-pink"
+                          whileHover={{ x: 10 }}
+                        >
                           Explore Collection
                           <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                           </svg>
-                        </span>
+                        </motion.span>
                       </div>
                     </div>
                   </Link>
@@ -126,6 +136,11 @@ const Collections: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 * index }}
+                        whileHover={{ 
+                          y: -10, 
+                          transition: { type: "spring", stiffness: 300 }
+                        }}
+                        className="card-3d"
                       >
                         <PerfumeCard product={product} />
                       </motion.div>
