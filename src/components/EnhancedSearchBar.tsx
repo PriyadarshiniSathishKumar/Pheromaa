@@ -147,7 +147,7 @@ const EnhancedSearchBar: React.FC = () => {
                       >
                         <div className="w-8 h-8 rounded-full overflow-hidden">
                           <img 
-                            src={product.image} 
+                            src={product.images[0]} 
                             alt={product.name} 
                             className="w-full h-full object-cover"
                           />
