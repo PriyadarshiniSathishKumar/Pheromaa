@@ -1,16 +1,24 @@
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [isOnClickable, setIsOnClickable] = useState(false);
+  
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  // Use spring for smooth movement
+  const springConfig = { damping: 25, stiffness: 700, mass: 0.5 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX - 16);
+      cursorY.set(e.clientY - 16);
       if (!isVisible) setIsVisible(true);
     };
 
@@ -20,7 +28,6 @@ const CustomCursor = () => {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       
-      // Check if element or its parent is clickable
       if (
         target.tagName === 'A' ||
         target.tagName === 'BUTTON' ||
@@ -35,140 +42,128 @@ const CustomCursor = () => {
       }
     };
 
+    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => setIsVisible(false);
+
     window.addEventListener('mousemove', updateMousePosition);
     window.addEventListener('mousemove', handleMouseOver);
-    window.addEventListener('mouseenter', () => setIsVisible(true));
-    window.addEventListener('mouseleave', () => setIsVisible(false));
+    document.addEventListener('mouseenter', handleMouseEnter);
+    document.addEventListener('mouseleave', handleMouseLeave);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      window.addEventListener('mousemove', updateMousePosition);
-      window.addEventListener('mousemove', handleMouseOver);
-      window.addEventListener('mouseenter', () => setIsVisible(true));
-      window.addEventListener('mouseleave', () => setIsVisible(false));
-      window.addEventListener('mousedown', handleMouseDown);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', updateMousePosition);
+      window.removeEventListener('mousemove', handleMouseOver);
+      document.removeEventListener('mouseenter', handleMouseEnter);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isVisible]);
+  }, [cursorX, cursorY, isVisible]);
 
   return (
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
-          body {
-            cursor: none;
-          }
-          a, button, input, textarea, select, [role="button"] {
-            cursor: none;
-          }
-          .clickable {
-            cursor: none;
+          * {
+            cursor: none !important;
           }
         `
       }} />
 
       <motion.div
         className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+        }}
         animate={{
-          x: position.x - 16,
-          y: position.y - 16,
-          scale: isVisible ? 1 : 0,
+          scale: isVisible ? (isOnClickable ? 1.5 : 1) : 0,
           opacity: isVisible ? 1 : 0
         }}
         transition={{
-          type: "spring",
-          damping: 25,
-          stiffness: 300,
-          mass: 0.5
+          scale: { type: "spring", damping: 20, stiffness: 300 },
+          opacity: { duration: 0.2 }
         }}
       >
-        {/* Perfume bottle cursor */}
+        {/* Enhanced perfume bottle cursor */}
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <motion.path 
-            d="M8 5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V10.5C16 11.3284 15.3284 12 14.5 12H9.5C8.67157 12 8 11.3284 8 10.5V5Z" 
-            fill="#c59dff"
-            animate={isClicking ? { scale: 0.9 } : { scale: 1 }}
-          />
-          <motion.path 
-            d="M12 12V21M8 21H16" 
-            stroke="#c59dff" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            animate={isClicking ? { scale: 0.9 } : { scale: 1 }}
-          />
+          <motion.g
+            animate={isClicking ? { scale: 0.8 } : { scale: 1 }}
+            transition={{ type: "spring", stiffness: 400 }}
+          >
+            {/* Bottle body */}
+            <motion.path 
+              d="M8 8C8 6.89543 8.89543 6 10 6H14C15.1046 6 16 6.89543 16 8V16C16 18.2091 14.2091 20 12 20C9.79086 20 8 18.2091 8 16V8Z" 
+              fill="#c59dff"
+              animate={isOnClickable ? { fill: "#ff57a8" } : { fill: "#c59dff" }}
+            />
+            
+            {/* Bottle neck */}
+            <motion.path 
+              d="M10.5 3H13.5C13.7761 3 14 3.22386 14 3.5V6H10V3.5C10 3.22386 10.2239 3 10.5 3Z" 
+              fill="#c59dff"
+              animate={isOnClickable ? { fill: "#ff57a8" } : { fill: "#c59dff" }}
+            />
+            
+            {/* Cap */}
+            <motion.rect 
+              x="9.5" 
+              y="2" 
+              width="5" 
+              height="2" 
+              rx="1" 
+              fill="#c59dff"
+              animate={isOnClickable ? { fill: "#ff57a8" } : { fill: "#c59dff" }}
+            />
+          </motion.g>
           
           {/* Animated perfume mist */}
           <motion.g
-            initial={{ opacity: 0 }}
             animate={{ 
-              opacity: [0, 0.5, 0],
-              y: [-5, -8, -12],
-              x: [0, 2, 1]
+              opacity: [0, 0.6, 0],
+              y: [-2, -8, -15],
+              x: [0, 1, -1, 2]
             }}
             transition={{
               repeat: Infinity,
-              repeatType: "loop",
-              duration: 2,
-              ease: "easeOut",
-              times: [0, 0.5, 1]
+              duration: 2.5,
+              ease: "easeOut"
             }}
           >
-            <circle cx="14" cy="0" r="1" fill="#c59dff" fillOpacity="0.5" />
-            <circle cx="12" cy="-2" r="0.8" fill="#c59dff" fillOpacity="0.4" />
-            <circle cx="10" cy="-1" r="1.2" fill="#c59dff" fillOpacity="0.3" />
+            <circle cx="13" cy="1" r="1" fill="#c59dff" fillOpacity="0.6" />
+            <circle cx="11" cy="-1" r="0.8" fill="#c59dff" fillOpacity="0.4" />
+            <circle cx="15" cy="0" r="1.2" fill="#c59dff" fillOpacity="0.3" />
           </motion.g>
         </svg>
       </motion.div>
       
-      {/* Ripple effect on click */}
+      {/* Click ripple effect */}
       {isClicking && (
         <motion.div
-          className="fixed top-0 left-0 z-[9997] pointer-events-none rounded-full bg-perfume-pink/20"
+          className="fixed top-0 left-0 z-[9997] pointer-events-none rounded-full border border-perfume-pink/50"
+          style={{
+            x: cursorXSpring,
+            y: cursorYSpring,
+          }}
           initial={{ 
             width: 10, 
             height: 10,
-            x: position.x - 5,
-            y: position.y - 5,
-            opacity: 0.8 
-          }}
-          animate={{ 
-            width: 80, 
-            height: 80,
-            x: position.x - 40,
-            y: position.y - 40,
-            opacity: 0 
-          }}
-          transition={{
-            duration: 0.8,
-            ease: "easeOut"
-          }}
-          onAnimationComplete={() => setIsClicking(false)}
-        />
-      )}
-
-      {/* Enlarge effect on clickable elements */}
-      {isOnClickable && (
-        <motion.div
-          className="fixed top-0 left-0 z-[9998] pointer-events-none rounded-full border border-white/30"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ 
-            opacity: 0.6,
-            scale: 1.5,
-            x: position.x,
-            y: position.y,
+            opacity: 0.8,
             translateX: "-50%",
-            translateY: "-50%",
+            translateY: "-50%"
+          }}
+          animate={{ 
+            width: 60, 
+            height: 60,
+            opacity: 0,
+            translateX: "-50%",
+            translateY: "-50%"
           }}
           transition={{
-            type: "spring",
-            damping: 20,
-            stiffness: 300,
-          }}
-          style={{
-            width: "30px",
-            height: "30px",
+            duration: 0.6,
+            ease: "easeOut"
           }}
         />
       )}

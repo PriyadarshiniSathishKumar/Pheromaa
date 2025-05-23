@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -8,6 +7,8 @@ import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import PerfumeCard from '@/components/PerfumeCard';
 import ParallaxSection from '@/components/ParallaxSection';
+import CraftingPerfectionSection from '@/components/CraftingPerfectionSection';
+import EnhancedShopSection from '@/components/EnhancedShopSection';
 import { products } from '@/data/products';
 
 const Index: React.FC = () => {
@@ -28,9 +29,15 @@ const Index: React.FC = () => {
       <main>
         <HeroSection />
         
-        {/* Featured Products Section */}
+        {/* Enhanced Shop Section */}
+        <EnhancedShopSection />
+        
+        {/* Crafting Perfection Section */}
+        <CraftingPerfectionSection />
+        
+        {/* Featured Products Section with enhanced animations */}
         <motion.section 
-          className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black"
+          className="py-20 bg-gradient-to-b from-perfume-darkBrown to-perfume-black relative overflow-hidden"
           ref={containerRef}
         >
           <motion.div 
@@ -42,6 +49,33 @@ const Index: React.FC = () => {
               y: backgroundY
             }}
           />
+          
+          {/* Animated particles background */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 50 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full bg-perfume-pink/20"
+                style={{
+                  width: Math.random() * 4 + 2 + 'px',
+                  height: Math.random() * 4 + 2 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: Math.random() * 100 + '%',
+                }}
+                animate={{
+                  y: [0, -100],
+                  opacity: [0, 0.6, 0],
+                  scale: [1, 0]
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: Math.random() * 5 + 5,
+                  ease: "easeOut",
+                  delay: Math.random() * 5
+                }}
+              />
+            ))}
+          </div>
           
           <div className="container mx-auto px-4 text-center relative z-10">
             <motion.h2 
@@ -73,6 +107,7 @@ const Index: React.FC = () => {
                 />
               </span>
             </motion.h2>
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -120,7 +155,7 @@ const Index: React.FC = () => {
         <ParallaxSection />
         <ParallaxSection reverseDirection={true} />
         
-        {/* Newsletter Section with Glassmorphism */}
+        {/* Enhanced Newsletter Section */}
         <section className="py-20 bg-perfume-darkBrown relative overflow-hidden">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-800/20 via-perfume-darkBrown to-black"></div>
