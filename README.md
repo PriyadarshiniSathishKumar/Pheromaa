@@ -1,73 +1,35 @@
-# Welcome to your Lovable project
+# Pheroma
+This is a **luxury perfume e-commerce website** built with modern web technologies. Here's the tech stack:
+<img width="1919" height="862" alt="image" src="https://github.com/user-attachments/assets/77c9ccf7-5a43-4043-93d2-50211c4cb5d9" />
+<img width="1919" height="864" alt="image" src="https://github.com/user-attachments/assets/599bf933-a680-4ac3-96bb-6c8fa952f428" />
+<img width="1919" height="861" alt="image" src="https://github.com/user-attachments/assets/c393d66f-cc27-4016-9918-65200a0d2756" />
+<img width="1919" height="866" alt="image" src="https://github.com/user-attachments/assets/1108fbeb-1049-4cad-a35b-b9106037dbf6" />
+<img width="1919" height="875" alt="image" src="https://github.com/user-attachments/assets/19d169c6-e606-41ad-8a58-f2a3a9d61d8d" />
 
-## Project info
+## Core Framework
+- **React 18** with **TypeScript** for type safety
+- **Vite** as the build tool and dev server
+- **React Router DOM** for client-side routing
 
-**URL**: https://lovable.dev/projects/bdf2c323-6610-4ba7-807f-bd4844b85a45
+## Styling & UI
+- **Tailwind CSS** with custom design system (semantic color tokens in HSL)
+- **shadcn/ui** component library for consistent UI primitives
+- **Framer Motion** for advanced animations and transitions
+- **Lucide React** for icons
 
-## How can I edit this code?
+## Key Features
+- **E-commerce functionality**: Product catalog, cart, checkout, wishlist
+- **Advanced animations**: Custom cursor, parallax effects, scroll-triggered animations
+- **Responsive design** with mobile-first approach
+- **Dark/light mode** theming support
+- **Blog system** with rich content
+- **User authentication** pages (login/signup)
+- **Advanced UI/UX**: Glassmorphism, neumorphism, liquid animations, particle effects
 
-There are several ways of editing your application.
+## Project Structure
+- Pages: Home, Products, Collections, About, Blog, Cart, Profile, etc.
+- Custom components for perfume cards, hero sections, navigation
+- Context for shop/cart state management
+- Comprehensive animation system with keyframes and utilities
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/bdf2c323-6610-4ba7-807f-bd4844b85a45) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/bdf2c323-6610-4ba7-807f-bd4844b85a45) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+The site showcases premium perfume products with sophisticated animations, smooth transitions, and an elegant user experience focused on luxury branding.
