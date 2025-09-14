@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ShopProvider } from "@/context/ShopContext";
 import { AnimatePresence } from "framer-motion";
-import CustomCursor from "@/components/CustomCursor";
+
 import BackToTop from "@/components/BackToTop";
 
 import Index from "./pages/Index";
@@ -55,7 +55,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <CustomCursor />
           <BackToTop />
           <PageTransition>
             <Routes>
