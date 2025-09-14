@@ -1,8 +1,8 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-const CustomCursor = () => {
+const CustomCursor = React.memo(() => {
   const [isVisible, setIsVisible] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [isOnClickable, setIsOnClickable] = useState(false);
@@ -10,43 +10,54 @@ const CustomCursor = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   
-  // Enhanced spring configuration for smoother movement
-  const springConfig = { damping: 15, stiffness: 500, mass: 0.1 };
+  // Optimized spring configuration
+  const springConfig = { damping: 25, stiffness: 400, mass: 0.1 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
+  // Throttled mouse position update
+  const throttleRef = useRef<number>(0);
+  
+  const updateMousePosition = useCallback((e: MouseEvent) => {
+    const now = Date.now();
+    if (now - throttleRef.current < 16) return; // ~60fps throttle
+    throttleRef.current = now;
+    
+    cursorX.set(e.clientX - 16);
+    cursorY.set(e.clientY - 16);
+    if (!isVisible) setIsVisible(true);
+  }, [cursorX, cursorY, isVisible]);
+
+  // Optimized hover detection with throttling
+  const hoverThrottleRef = useRef<number>(0);
+  const handleMouseOver = useCallback((e: MouseEvent) => {
+    const now = Date.now();
+    if (now - hoverThrottleRef.current < 50) return; // Throttle hover detection
+    hoverThrottleRef.current = now;
+    
+    const target = e.target as HTMLElement;
+    
+    const isClickableElement = !!(
+      target.tagName === 'A' ||
+      target.tagName === 'BUTTON' ||
+      target.closest('a') ||
+      target.closest('button') ||
+      target.getAttribute('role') === 'button' ||
+      target.classList.contains('clickable')
+    );
+    
+    setIsOnClickable(isClickableElement);
+  }, []);
+
+  const handleMouseDown = useCallback(() => setIsClicking(true), []);
+  const handleMouseUp = useCallback(() => setIsClicking(false), []);
+  const handleMouseEnter = useCallback(() => setIsVisible(true), []);
+  const handleMouseLeave = useCallback(() => setIsVisible(false), []);
+
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 16);
-      cursorY.set(e.clientY - 16);
-      if (!isVisible) setIsVisible(true);
-    };
-
-    const handleMouseDown = () => setIsClicking(true);
-    const handleMouseUp = () => setIsClicking(false);
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      
-      if (
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.getAttribute('role') === 'button' ||
-        target.classList.contains('clickable')
-      ) {
-        setIsOnClickable(true);
-      } else {
-        setIsOnClickable(false);
-      }
-    };
-
-    const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseLeave = () => setIsVisible(false);
-
-    window.addEventListener('mousemove', updateMousePosition);
-    window.addEventListener('mousemove', handleMouseOver);
+    // Use passive event listeners for better performance
+    window.addEventListener('mousemove', updateMousePosition, { passive: true });
+    window.addEventListener('mousemove', handleMouseOver, { passive: true });
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
     window.addEventListener('mousedown', handleMouseDown);
@@ -60,7 +71,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [updateMousePosition, handleMouseOver]);
 
   return (
     <>
@@ -138,27 +149,26 @@ const CustomCursor = () => {
             />
           </motion.g>
           
-          {/* Enhanced animated perfume mist with particles */}
+          {/* Optimized perfume mist - reduced particles for performance */}
           <motion.g>
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <motion.circle
                 key={i}
-                cx={12 + Math.sin(i * 0.5) * 3}
-                cy={-2 - i * 2}
-                r={1.2 - i * 0.2}
+                cx={12}
+                cy={-2 - i * 3}
+                r={1 - i * 0.2}
                 fill="#c59dff"
-                fillOpacity={0.6 - i * 0.1}
+                fillOpacity={0.7 - i * 0.2}
                 animate={{ 
-                  opacity: [0, 0.8, 0],
-                  y: [-5, -15, -25],
-                  x: [0, Math.sin(i) * 3, 0],
-                  scale: [0.5, 1, 0.3]
+                  opacity: [0, 0.7, 0],
+                  y: [-5, -20],
+                  scale: [0.8, 0.3]
                 }}
                 transition={{
                   repeat: Infinity,
-                  duration: 2 + i * 0.3,
+                  duration: 1.5 + i * 0.2,
                   ease: "easeOut",
-                  delay: i * 0.2
+                  delay: i * 0.3
                 }}
               />
             ))}
@@ -166,42 +176,34 @@ const CustomCursor = () => {
         </svg>
       </motion.div>
       
-      {/* Enhanced click ripple effect with multiple layers */}
+      {/* Optimized click ripple - single element for performance */}
       {isClicking && (
-        <>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="fixed top-0 left-0 z-[9997] pointer-events-none rounded-full border border-perfume-pink/30"
-              style={{
-                x: cursorXSpring,
-                y: cursorYSpring,
-              }}
-              initial={{ 
-                width: 5 + i * 3, 
-                height: 5 + i * 3,
-                opacity: 0.9 - i * 0.2,
-                translateX: "-50%",
-                translateY: "-50%"
-              }}
-              animate={{ 
-                width: 80 + i * 20, 
-                height: 80 + i * 20,
-                opacity: 0,
-                translateX: "-50%",
-                translateY: "-50%"
-              }}
-              transition={{
-                duration: 0.8 + i * 0.2,
-                ease: "easeOut",
-                delay: i * 0.1
-              }}
-            />
-          ))}
-        </>
+        <motion.div
+          className="fixed top-0 left-0 z-[9997] pointer-events-none rounded-full border-2 border-perfume-pink/40"
+          style={{
+            x: cursorXSpring,
+            y: cursorYSpring,
+            translateX: "-50%",
+            translateY: "-50%"
+          }}
+          initial={{ 
+            width: 8, 
+            height: 8,
+            opacity: 0.8
+          }}
+          animate={{ 
+            width: 60, 
+            height: 60,
+            opacity: 0
+          }}
+          transition={{
+            duration: 0.6,
+            ease: "easeOut"
+          }}
+        />
       )}
     </>
   );
-};
+});
 
 export default CustomCursor;

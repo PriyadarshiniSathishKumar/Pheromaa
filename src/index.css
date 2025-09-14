@@ -84,4 +84,74 @@
   .purple-glow {
     filter: drop-shadow(0 0 10px rgba(197, 157, 255, 0.5));
   }
+  
+  /* Performance Optimizations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Optimized scroll performance */
+  .scroll-optimized {
+    will-change: transform;
+    contain: layout style paint;
+  }
+
+  /* Smooth scrolling with hardware acceleration */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Reduce layout thrashing */
+  .no-layout-shift {
+    contain: layout;
+    will-change: auto;
+  }
+
+  /* Optimize expensive animations */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    .particle-system,
+    .morphing-grid,
+    .volumetric-float,
+    .liquid-distortion {
+      animation: none !important;
+    }
+  }
+
+  /* Water text effect - optimized */
+  .water-text {
+    background: linear-gradient(45deg, #c59dff, #ff57a8, #c59dff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: waterFlow 3s ease-in-out infinite;
+  }
+
+  @keyframes waterFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Optimize images for performance */
+  img {
+    will-change: auto;
+    transform: translateZ(0);
+  }
+
+  /* Optimize animations for 60fps */
+  @media (min-resolution: 120dpi) {
+    * {
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
 }

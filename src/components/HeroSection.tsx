@@ -1,22 +1,66 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Droplets } from 'lucide-react';
 
-const HeroSection: React.FC = () => {
+// Optimized animated particles component
+const AnimatedParticles = React.memo(() => {
+  // Reduced particle count for better performance
+  const particles = useMemo(() => 
+    Array.from({ length: 12 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 4 + 2,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      animationDelay: Math.random() * 3,
+      animationDuration: Math.random() * 3 + 4
+    })), []
+  );
+
+  return (
+    <div className="absolute inset-0">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full bg-perfume-pink/20"
+          style={{
+            width: particle.size + 'px',
+            height: particle.size + 'px',
+            left: particle.left + '%',
+            top: particle.top + '%',
+            filter: 'blur(1px)',
+            willChange: 'transform, opacity'
+          }}
+          animate={{
+            y: [0, -80],
+            opacity: [0, 0.4, 0],
+            scale: [1, 0.3]
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: particle.animationDuration,
+            ease: "easeOut",
+            delay: particle.animationDelay
+          }}
+        />
+      ))}
+    </div>
+  );
+});
+
+const HeroSection: React.FC = React.memo(() => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const { scrollYProgress } = useScroll();
   
-  // Transform values based on scroll
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.9]);
-  const y = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
-  const rotate = useTransform(scrollYProgress, [0, 0.3], [0, -5]);
+  // Optimized transform values with will-change CSS hint
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
+  const y = useTransform(scrollYProgress, [0, 0.2], [0, 50]);
   
-  // Word animations for title
-  const animateWord = (word: string) => {
+  // Memoized word animation function
+  const animateWord = useCallback((word: string) => {
     return (
       <div className="inline-block">
         {word.split('').map((letter, index) => (
@@ -43,75 +87,46 @@ const HeroSection: React.FC = () => {
         ))}
       </div>
     );
-  };
+  }, []);
   
   return (
     <motion.section 
       className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ scale, opacity }}
+      style={{ scale, opacity, willChange: 'transform, opacity' }}
     >
-      {/* Background with the elegant perfume image */}
+      {/* Background with optimized loading */}
       <div className="absolute inset-0 z-0">
         <div className="relative w-full h-full">
           <motion.img
             src="/lovable-uploads/45d25ded-2f0f-4e7f-bbf4-804fe0d8de69.png"
             alt="Elegant Perfume"
             className="w-full h-full object-cover"
-            initial={{ opacity: 0, scale: 1.1 }}
+            loading="eager" // Prioritize hero image loading
+            initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 0.85, scale: 1 }}
-            transition={{ duration: 2 }}
-            style={{ y }}
+            transition={{ duration: 1.5 }}
+            style={{ y, willChange: 'transform' }}
             onLoad={() => setImageLoaded(true)}
           />
-          {/* Gradient overlay */}
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/90"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          />
+          {/* Optimized gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/90" />
           
-          {/* Animated particles */}
-          <div className="absolute inset-0">
-            {Array.from({ length: 30 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute rounded-full bg-perfume-pink/30"
-                style={{
-                  width: Math.random() * 6 + 2 + 'px',
-                  height: Math.random() * 6 + 2 + 'px',
-                  filter: 'blur(1px)',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
-                }}
-                animate={{
-                  y: [0, -(Math.random() * 100 + 50)],
-                  opacity: [0, 0.6, 0],
-                  scale: [1, 0]
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: Math.random() * 5 + 5,
-                  ease: "easeOut",
-                  delay: Math.random() * 5
-                }}
-              />
-            ))}
-          </div>
+          {/* Optimized particles component */}
+          <AnimatedParticles />
         </div>
       </div>
       
       <div className="container mx-auto px-4 pt-24 pb-20 text-center relative z-10">
         <motion.div 
           className="w-full max-w-4xl mx-auto"
-          style={{ rotate }}
+          style={{ willChange: 'transform' }}
         >
           <AnimatePresence>
             {imageLoaded && (
               <motion.h1 
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-wider text-white leading-tight"
               >
                 {animateWord("BELIEVE")} <br /> 
@@ -119,7 +134,7 @@ const HeroSection: React.FC = () => {
                   className="water-text pink-water-text"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 1, duration: 2 }}
+                  transition={{ delay: 0.8, duration: 1.5 }}
                 >
                   IN DREAMS
                 </motion.span>
@@ -128,18 +143,18 @@ const HeroSection: React.FC = () => {
           </AnimatePresence>
           
           <motion.p 
-            initial={{ opacity: 0, y: 50 }}
-            animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-6 text-lg text-gray-300 mx-auto"
           >
             Step into a world of captivating aromas with PHEROMA, where each fragrance is crafted to evoke emotion, inspire memories, and define your essence.
           </motion.p>
           
           <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={imageLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
             className="mt-8 space-x-4 flex justify-center"
           >
             <Button 
@@ -202,37 +217,37 @@ const HeroSection: React.FC = () => {
         </motion.div>
       </div>
       
-      {/* Animated scroll indicator */}
+      {/* Optimized scroll indicator */}
       <motion.div 
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={imageLoaded ? { 
-          opacity: 1, 
-          y: [0, 10, 0] 
+          opacity: 0.8, 
+          y: [0, 8, 0] 
         } : { opacity: 0 }}
         transition={{ 
           repeat: Infinity, 
-          duration: 1.5, 
+          duration: 2, 
           ease: "easeInOut",
-          delay: 1.5
+          delay: 1
         }}
+        style={{ willChange: 'transform' }}
       >
         <motion.div 
-          className="w-6 h-10 border-2 border-white rounded-full flex justify-center pt-2"
-          whileHover={{ scale: 1.2, borderColor: "#ff57a8" }}
+          className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center pt-2"
+          whileHover={{ scale: 1.1, borderColor: "rgba(255, 255, 255, 0.9)" }}
         >
           <motion.div 
-            className="w-1 h-2 bg-white rounded-full"
+            className="w-1 h-2 bg-white/80 rounded-full"
             animate={{ 
-              y: [0, 6, 0],
-              backgroundColor: ["#ffffff", "#ff57a8", "#ffffff"]
+              y: [0, 4, 0]
             }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           />
         </motion.div>
       </motion.div>
     </motion.section>
   );
-};
+});
 
 export default HeroSection;
